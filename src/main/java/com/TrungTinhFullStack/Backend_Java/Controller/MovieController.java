@@ -42,4 +42,20 @@ public class MovieController {
     public ResponseEntity<List<MovieDto>> getAllMovieHandel() {
         return ResponseEntity.ok(movieService.getAllMovie());
     }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<MovieDto> updateMovieHandel(@PathVariable Long id,
+                                                      @RequestPart MultipartFile file,
+                                                      @RequestPart String movieDtoObj) throws IOException {
+        if(file.isEmpty()) {
+            file = null;
+        }
+        MovieDto movieDto = convertToMovieDto(movieDtoObj);
+        return ResponseEntity.ok(movieService.updateMovie(id,movieDto,file));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteMovieHandel(@PathVariable Long id) throws IOException {
+        return ResponseEntity.ok(movieService.deleteMovie(id));
+    }
 }
