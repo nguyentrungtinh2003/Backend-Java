@@ -1,6 +1,7 @@
 package com.TrungTinhFullStack.Backend_Java.Service.Movie;
 
 import com.TrungTinhFullStack.Backend_Java.Dto.MovieDto;
+import com.TrungTinhFullStack.Backend_Java.Dto.MoviePageResponse;
 import com.TrungTinhFullStack.Backend_Java.Entity.Movie;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,4 +15,7 @@ public interface MovieService {
     List<MovieDto> getAllMovie();
     MovieDto updateMovie(Long id,MovieDto movieDto,MultipartFile file) throws IOException;
     String deleteMovie(Long id) throws IOException;
+    MoviePageResponse getAllMoviesWithPagination(Integer pageNumber,Integer pageSize);
+    MoviePageResponse getAllMoviesWithPaginationAndSorting(Integer pageNumber,Integer pageSize,
+                                                           String sortBy,String dir);
 }
