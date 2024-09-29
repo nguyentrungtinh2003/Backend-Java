@@ -2,6 +2,7 @@ package com.TrungTinhFullStack.Backend_Java.Service.Movie;
 
 import com.TrungTinhFullStack.Backend_Java.Dto.MovieDto;
 import com.TrungTinhFullStack.Backend_Java.Entity.Movie;
+import com.TrungTinhFullStack.Backend_Java.Exception.MovieNotFoundException;
 import com.TrungTinhFullStack.Backend_Java.Repository.MovieRepository;
 import com.TrungTinhFullStack.Backend_Java.Service.File.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,7 +101,7 @@ public class MovieServiceImpl implements MovieService{
 
     @Override
     public MovieDto updateMovie(Long id, MovieDto movieDto, MultipartFile file) throws IOException {
-        Movie movie = movieRepository.findById(id).orElseThrow(() -> new RuntimeException("Movie not found !"));
+        Movie movie = movieRepository.findById(id).orElseThrow(() -> new MovieNotFoundException("Movie not found !"));
         String fileName = movie.getPoster();
         if(file != null) {
             Files.deleteIfExists(Paths.get(path + File.separator + fileName));
@@ -133,7 +134,7 @@ public class MovieServiceImpl implements MovieService{
 
     @Override
     public String deleteMovie(Long id) throws IOException {
-        Movie movie = movieRepository.findById(id).orElseThrow(() -> new RuntimeException("Movie not found !"));
+        Movie movie = movieRepository.findById(id).orElseThrow(() -> new MovieNotFoundException("Movie not found !"));
         Files.deleteIfExists(Paths.get(path + File.separator + movie.getPoster()));
         movieRepository.delete(movie);
         return "Movie deleted with id = " + id;

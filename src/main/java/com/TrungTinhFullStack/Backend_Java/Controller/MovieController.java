@@ -1,6 +1,7 @@
 package com.TrungTinhFullStack.Backend_Java.Controller;
 
 import com.TrungTinhFullStack.Backend_Java.Dto.MovieDto;
+import com.TrungTinhFullStack.Backend_Java.Exception.EmptyFileException;
 import com.TrungTinhFullStack.Backend_Java.Service.Movie.MovieService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,6 +24,9 @@ public class MovieController {
     @PostMapping("/add")
     public ResponseEntity<MovieDto> addMovieHandel(@RequestPart MultipartFile file,
                                                    @RequestPart String movieDto) throws IOException {
+        if(file.isEmpty()) {
+            throw new EmptyFileException("File is empty !");
+        }
         MovieDto movieDto1 = convertToMovieDto(movieDto);
         return new ResponseEntity<>(movieService.addMovie(movieDto1,file), HttpStatus.CREATED);
 
